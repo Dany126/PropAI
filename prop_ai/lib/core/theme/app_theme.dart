@@ -16,7 +16,7 @@ import 'app_text_styles.dart';
 /// )
 /// ```
 ///
-/// Prefer using AppColors / AppTextStyles / AppSpacing / AppRadius
+/// Prefer using AppColors / AppTextStyle / AppSpacing / AppRadius
 /// directly in widgets for anything not covered by a global theme
 /// property (e.g. property card styling), so behavior stays explicit
 /// and traceable to the Style Guide.
@@ -26,7 +26,7 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: AppTextStyles.fontFamily,
+      fontFamily: AppTextStyle.fontFamily,
       scaffoldBackgroundColor: AppColors.background,
       brightness: Brightness.light,
 
@@ -51,7 +51,7 @@ class AppTheme {
         foregroundColor: AppColors.gray900,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: AppTextStyles.sectionTitle,
+        titleTextStyle: AppTextStyle.bold20.copyWith(color: AppColors.gray900),
         iconTheme: const IconThemeData(color: AppColors.gray700),
       ),
 
@@ -67,7 +67,7 @@ class AppTheme {
           minimumSize: const Size.fromHeight(48), // Lg size
           padding: AppSpacing.buttonInsetsLg,
           shape: RoundedRectangleBorder(borderRadius: AppRadius.button),
-          textStyle: AppTextStyles.buttonPrimary,
+          textStyle: AppTextStyle.semiBold18.copyWith(color: AppColors.white),
           elevation: 0,
         ),
       ),
@@ -82,7 +82,7 @@ class AppTheme {
           minimumSize: const Size.fromHeight(48),
           padding: AppSpacing.buttonInsetsLg,
           shape: RoundedRectangleBorder(borderRadius: AppRadius.button),
-          textStyle: AppTextStyles.buttonSecondary,
+          textStyle: AppTextStyle.semiBold16.copyWith(color: AppColors.primary600),
         ),
       ),
 
@@ -93,7 +93,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary600,
           padding: AppSpacing.buttonInsetsMd,
-          textStyle: AppTextStyles.label3(color: AppColors.primary600),
+          textStyle: AppTextStyle.medium14.copyWith(color: AppColors.primary600),
         ),
       ),
 
@@ -107,9 +107,9 @@ class AppTheme {
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
-        hintStyle: AppTextStyles.inputPlaceholder,
-        labelStyle: AppTextStyles.inputLabel,
-        errorStyle: AppTextStyles.helperError,
+        hintStyle: AppTextStyle.regular14.copyWith(color: AppColors.gray400),
+        labelStyle: AppTextStyle.medium14.copyWith(color: AppColors.gray700),
+        errorStyle: AppTextStyle.regular12.copyWith(color: AppColors.error600),
         border: OutlineInputBorder(
           borderRadius: AppRadius.input,
           borderSide: const BorderSide(color: AppColors.border),
@@ -149,8 +149,8 @@ class AppTheme {
         backgroundColor: AppColors.gray50,
         selectedColor: AppColors.primary50,
         disabledColor: AppColors.gray100,
-        labelStyle: AppTextStyles.label3(color: AppColors.gray700),
-        secondaryLabelStyle: AppTextStyles.label3(color: AppColors.primary700),
+        labelStyle: AppTextStyle.medium14.copyWith(color: AppColors.gray700),
+        secondaryLabelStyle: AppTextStyle.medium14.copyWith(color: AppColors.primary700),
         side: const BorderSide(color: AppColors.gray200),
         shape: RoundedRectangleBorder(borderRadius: AppRadius.chip),
         padding: AppSpacing.chipInsets,
@@ -187,8 +187,8 @@ class AppTheme {
         backgroundColor: AppColors.white,
         selectedItemColor: AppColors.primary600,
         unselectedItemColor: AppColors.gray400,
-        selectedLabelStyle: AppTextStyles.label4(color: AppColors.primary600),
-        unselectedLabelStyle: AppTextStyles.label4(color: AppColors.gray400),
+        selectedLabelStyle: AppTextStyle.medium12.copyWith(color: AppColors.primary600),
+        unselectedLabelStyle: AppTextStyle.medium12.copyWith(color: AppColors.gray400),
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
@@ -207,7 +207,7 @@ class AppTheme {
       // -------------------------------------------------------------
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.gray900,
-        contentTextStyle: AppTextStyles.paragraph3(color: AppColors.white),
+        contentTextStyle: AppTextStyle.regular14.copyWith(color: AppColors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.sm)),
         behavior: SnackBarBehavior.floating,
       ),
