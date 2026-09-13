@@ -4,6 +4,7 @@ import 'package:prop_ai/Features/on_boarding/views/widgets/onboarding_bottom_but
 import 'package:prop_ai/Features/on_boarding/views/widgets/onboarding_indicator.dart';
 import 'package:prop_ai/Features/on_boarding/views/widgets/onboarding_page_item.dart';
 import 'package:prop_ai/core/theme/theme.dart';
+import 'package:prop_ai/core/utils/app_routes.dart';
 import 'package:prop_ai/core/utils/assets.dart';
 
 class OnboardingViewBody extends StatefulWidget {
@@ -72,10 +73,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
   }
 
   void _finishOnboarding() {
-    // TODO:
-    // Save onboarding completion using SharedPreferences.
-    //
-    // Then navigate to Authentication.
+    Navigator.pushNamed(context, AppRoutes.loginView);
   }
 
   @override

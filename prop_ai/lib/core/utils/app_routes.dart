@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:prop_ai/Features/auth/views/forgot_password_view.dart';
+import 'package:prop_ai/Features/auth/views/login_view.dart';
+import 'package:prop_ai/Features/auth/views/signup_view.dart';
 import 'package:prop_ai/Features/on_boarding/views/onboarding_view.dart';
 import 'package:prop_ai/Features/splash/view/splash_view.dart';
 
 class AppRoutes {
   static const String splashView = '/splashView';
   static const String onboardingView = '/onboardingView';
+
+  static const String loginView = '/loginView';
+  static const String signupView = '/signupView';
+  static const String forgotPasswordView = '/forgotPasswordView';
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -13,6 +20,17 @@ class AppRoutes {
 
       case onboardingView:
         return MaterialPageRoute(builder: (context) => const OnboardingView());
+
+      case loginView:
+        return MaterialPageRoute(builder: (context) => const LoginView());
+
+      case signupView:
+        return MaterialPageRoute(builder: (context) => const SignupView());
+
+      case forgotPasswordView:
+        return MaterialPageRoute(
+          builder: (context) => const ForgotPasswordView(),
+        );
 
       default:
         return MaterialPageRoute(
