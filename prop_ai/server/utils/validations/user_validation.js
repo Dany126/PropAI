@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 
-const { validationMiddlleware } = require('../middleware/validation_middlleware');
+const { validationMiddlleware } = require('../../middleware/validation_middlleware');
 
 const validateUserRegistration = () => {
   return [

@@ -9,4 +9,4 @@ const validationMiddlleware = (req,res,next) => {
     next();
 }
 
-exports.validate = validate;
+exports.validate = validationMiddlleware;
