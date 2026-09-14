@@ -211,149 +211,143 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.xl,
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 480),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const AuthHeader(
-                      title: 'Verify your email',
-                      subtitle: 'We sent a 6-digit verification code to your email address.',
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xl,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const AuthHeader(
+                    title: 'Verify your email',
+                    subtitle: 'We sent a 6-digit verification code to your email address.',
+                  ),
+
+                  SizedBox(height: AppSpacing.md),
+
+                  Text(
+                    widget.email,
+                    style: AppTextStyle.semiBold14.copyWith(
+                      color: AppColors.primary600,
                     ),
+                  ),
 
-                    SizedBox(height: AppSpacing.md),
+                  SizedBox(height: AppSpacing.xl),
 
-                    Text(
-                      widget.email,
-                      style: AppTextStyle.semiBold14.copyWith(
-                        color: AppColors.primary600,
-                      ),
-                    ),
-
-                    SizedBox(height: AppSpacing.xl),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(_otpLength, (index) {
-                        return SizedBox(
-                          width: 48,
-                          height: 58,
-                          child: Focus(
-                            onKeyEvent: (node, event) =>
-                                _handleKeyEvent(node, event, index),
-                            child: TextFormField(
-                              controller: _controllers[index],
-                              focusNode: _focusNodes[index],
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              maxLength: 1,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              style: AppTextStyle.semiBold20.copyWith(
-                                color: AppColors.textPrimary,
-                              ),
-                              decoration: InputDecoration(
-                                counterText: '',
-                                filled: true,
-                                fillColor: AppColors.background,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.md,
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.md,
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.md,
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: AppColors.primary500,
-                                    width: 1.5,
-                                  ),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                _onOtpChanged(value, index);
-                              },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(_otpLength, (index) {
+                      return SizedBox(
+                        width: 48,
+                        height: 58,
+                        child: Focus(
+                          onKeyEvent: (node, event) =>
+                              _handleKeyEvent(node, event, index),
+                          child: TextFormField(
+                            controller: _controllers[index],
+                            focusNode: _focusNodes[index],
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            maxLength: 1,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            style: AppTextStyle.semiBold20.copyWith(
+                              color: AppColors.textPrimary,
                             ),
+                            decoration: InputDecoration(
+                              counterText: '',
+                              filled: true,
+                              fillColor: AppColors.background,
+                              contentPadding: EdgeInsets.zero,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.md,
+                                ),
+                                borderSide: BorderSide(color: AppColors.border),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.md,
+                                ),
+                                borderSide: BorderSide(color: AppColors.border),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.md,
+                                ),
+                                borderSide: BorderSide(
+                                  color: AppColors.primary500,
+                                  width: 1.5,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _onOtpChanged(value, index);
+                            },
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    }),
+                  ),
+
+                  SizedBox(height: AppSpacing.xl),
+
+                  Center(
+                    child: Text(
+                      _remainingSeconds > 0
+                          ? 'Resend code in ${_formatTime()}'
+                          : 'Didn’t receive the code?',
+                      style: AppTextStyle.regular14.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
+                  ),
 
-                    SizedBox(height: AppSpacing.xl),
+                  SizedBox(height: AppSpacing.xs),
 
-                    Center(
+                  Center(
+                    child: TextButton(
+                      onPressed: _remainingSeconds == 0 ? _resendOtp : null,
                       child: Text(
-                        _remainingSeconds > 0
-                            ? 'Resend code in ${_formatTime()}'
-                            : 'Didn’t receive the code?',
-                        style: AppTextStyle.regular14.copyWith(
-                          color: AppColors.textSecondary,
+                        'Resend code',
+                        style: AppTextStyle.semiBold14.copyWith(
+                          color: _remainingSeconds == 0
+                              ? AppColors.primary600
+                              : AppColors.textPrimary,
                         ),
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: AppSpacing.xs),
+                  SizedBox(height: AppSpacing.lg),
 
-                    Center(
-                      child: TextButton(
-                        onPressed: _remainingSeconds == 0 ? _resendOtp : null,
-                        child: Text(
-                          'Resend code',
-                          style: AppTextStyle.semiBold14.copyWith(
-                            color: _remainingSeconds == 0
-                                ? AppColors.primary600
-                                : AppColors.textPrimary,
-                          ),
+                  AuthButton(
+                    text: _isVerifying ? 'Verifying...' : 'Verify code',
+                    onPressed: _isVerifying ? null : _verifyOtp,
+                  ),
+
+                  SizedBox(height: AppSpacing.lg),
+
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Change email address',
+                        style: AppTextStyle.medium14.copyWith(
+                          color: AppColors.primary600,
                         ),
                       ),
                     ),
-
-                    SizedBox(height: AppSpacing.lg),
-
-                    AuthButton(
-                      text: _isVerifying ? 'Verifying...' : 'Verify code',
-                      onPressed: _isVerifying ? null : _verifyOtp,
-                    ),
-
-                    SizedBox(height: AppSpacing.lg),
-
-                    Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Change email address',
-                          style: AppTextStyle.medium14.copyWith(
-                            color: AppColors.primary600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

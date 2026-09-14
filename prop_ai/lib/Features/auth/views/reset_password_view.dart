@@ -87,87 +87,82 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.xl,
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 480),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const AuthHeader(
-                      title: 'Create new password',
-                      subtitle: 'Your new password must be different from previously used passwords.',
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xl,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const AuthHeader(
+                    title: 'Create new password',
+                    subtitle: 'Your new password must be different from previously used passwords.',
+                  ),
+
+                  SizedBox(height: AppSpacing.xl),
+
+                  AuthTextField(
+                    controller: _passwordController,
+                    label: 'New password',
+                    hintText: 'Enter your new password',
+                    textInputAction: TextInputAction.next,
+                    prefixIcon: Icons.lock_outline,
+                    obscureText: true,
+                    validator: _validatePassword,
+                  ),
+
+                  SizedBox(height: AppSpacing.md),
+
+                  AuthTextField(
+                    controller: _confirmPasswordController,
+                    label: 'Confirm password',
+                    hintText: 'Re-enter your new password',
+                    textInputAction: TextInputAction.done,
+                    prefixIcon: Icons.lock_outline,
+                    obscureText: true,
+                    validator: _validateConfirmPassword,
+                  ),
+
+                  SizedBox(height: AppSpacing.md),
+
+                  Text(
+                    'Password must contain:',
+                    style: AppTextStyle.medium14.copyWith(
+                      color: AppColors.textPrimary,
                     ),
+                  ),
 
-                    SizedBox(height: AppSpacing.xl),
+                  SizedBox(height: AppSpacing.sm),
 
-                    AuthTextField(
-                      controller: _passwordController,
-                      label: 'New password',
-                      hintText: 'Enter your new password',
-                      textInputAction: TextInputAction.next,
-                      prefixIcon: Icons.lock_outline,
-                      obscureText: true,
-                      validator: _validatePassword,
-                    ),
+                  _PasswordRequirement(
+                    text: 'At least 8 characters',
+                    controller: _passwordController,
+                    validator: (password) => password.length >= 8,
+                  ),
 
-                    SizedBox(height: AppSpacing.md),
+                  _PasswordRequirement(
+                    text: 'At least one uppercase letter',
+                    controller: _passwordController,
+                    validator: (password) =>
+                        RegExp(r'[A-Z]').hasMatch(password),
+                  ),
 
-                    AuthTextField(
-                      controller: _confirmPasswordController,
-                      label: 'Confirm password',
-                      hintText: 'Re-enter your new password',
-                      textInputAction: TextInputAction.done,
-                      prefixIcon: Icons.lock_outline,
-                      obscureText: true,
-                      validator: _validateConfirmPassword,
-                    ),
+                  _PasswordRequirement(
+                    text: 'At least one number',
+                    controller: _passwordController,
+                    validator: (password) =>
+                        RegExp(r'[0-9]').hasMatch(password),
+                  ),
 
-                    SizedBox(height: AppSpacing.md),
+                  SizedBox(height: AppSpacing.xl),
 
-                    Text(
-                      'Password must contain:',
-                      style: AppTextStyle.medium14.copyWith(
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-
-                    SizedBox(height: AppSpacing.sm),
-
-                    _PasswordRequirement(
-                      text: 'At least 8 characters',
-                      controller: _passwordController,
-                      validator: (password) => password.length >= 8,
-                    ),
-
-                    _PasswordRequirement(
-                      text: 'At least one uppercase letter',
-                      controller: _passwordController,
-                      validator: (password) =>
-                          RegExp(r'[A-Z]').hasMatch(password),
-                    ),
-
-                    _PasswordRequirement(
-                      text: 'At least one number',
-                      controller: _passwordController,
-                      validator: (password) =>
-                          RegExp(r'[0-9]').hasMatch(password),
-                    ),
-
-                    SizedBox(height: AppSpacing.xl),
-
-                    AuthButton(
-                      text: 'Reset password',
-                      onPressed: _resetPassword,
-                    ),
-                  ],
-                ),
+                  AuthButton(text: 'Reset password', onPressed: _resetPassword),
+                ],
               ),
             ),
           ),
