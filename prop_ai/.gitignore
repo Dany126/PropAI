@@ -50,3 +50,6 @@ app.*.map.json
 server/node_modules
 
 server/config/.env
+
+
+MdFiles/*
