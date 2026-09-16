@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prop_ai/Features/auth/views/forgot_password_view.dart';
 import 'package:prop_ai/Features/auth/views/login_view.dart';
 import 'package:prop_ai/Features/auth/views/signup_view.dart';
-import 'package:prop_ai/Features/on_boarding/views/onboarding_view.dart';
+import 'package:prop_ai/Features/location/presentation/views/location_view.dart';
+import 'package:prop_ai/Features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:prop_ai/Features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:prop_ai/Features/splash/view/splash_view.dart';
+import 'package:prop_ai/core/di/injection_container.dart';
 
 class AppRoutes {
   static const String splashView = '/splashView';
@@ -11,7 +15,9 @@ class AppRoutes {
 
   static const String loginView = '/loginView';
   static const String signupView = '/signupView';
+
   static const String forgotPasswordView = '/forgotPasswordView';
+  static const String locationView = '/locationView';
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -19,10 +25,18 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) => const SplashView());
 
       case onboardingView:
-        return MaterialPageRoute(builder: (context) => const OnboardingView());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (_) => getIt<OnboardingCubit>(),
+            child: const OnboardingView(),
+          ),
+        );
 
       case loginView:
         return MaterialPageRoute(builder: (context) => const LoginView());
+
+      case locationView:
+        return MaterialPageRoute(builder: (context) => const LocationView());
 
       case signupView:
         return MaterialPageRoute(builder: (context) => const SignupView());

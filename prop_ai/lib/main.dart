@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:prop_ai/core/theme/theme.dart';
 import 'package:prop_ai/core/utils/app_routes.dart';
 
-void main() {
+import 'core/di/injection_container.dart';
+import 'core/storage/app_preferences.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AppPreferences.init();
+
+  await setupDependencies();
+
   runApp(const PropAI());
 }
 

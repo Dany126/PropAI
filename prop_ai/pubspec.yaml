@@ -43,11 +43,13 @@ dependencies:
 
   flutter_map: ^8.2.1
   latlong2: ^0.9.1
+  get_it: ^9.2.1
+  geolocator: ^14.0.2
+  geocoding: ^4.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
