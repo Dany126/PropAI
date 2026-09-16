@@ -384,4 +384,34 @@ class AppTextStyle {
 
   // Label 4 — 12 / Medium
   static const TextStyle label4 = medium12;
+
+  // ===========================================================================
+  // Responsive Utilities
+  // ===========================================================================
+
+  /// Calculates a responsive font size based on the screen width.
+  /// It clamps the scaled font size between 80% and 120% of the original size
+  /// to prevent text from becoming too small or too large.
+  static double getResponsiveFontSize(BuildContext context, {required double fontSize}) {
+    double scaleFactor = getScaleFactor(context);
+    double responsiveFontSize = fontSize * scaleFactor;
+    double lowerLimit = fontSize * 0.8;
+    double upperLimit = fontSize * 1.2;
+    return responsiveFontSize.clamp(lowerLimit, upperLimit);
+  }
+
+  /// Calculates the scale factor based on predefined breakpoints.
+  static double getScaleFactor(BuildContext context) {
+    double width = MediaQuery.sizeOf(context).width;
+    if (width < 600) {
+      // Mobile base width
+      return width / 400;
+    } else if (width < 900) {
+      // Tablet base width
+      return width / 700;
+    } else {
+      // Desktop base width
+      return width / 1000;
+    }
+  }
 }

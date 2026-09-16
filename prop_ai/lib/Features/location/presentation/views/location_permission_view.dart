@@ -135,10 +135,13 @@ class LocationPermissionView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: Text(
-                      'Allow Location Access',
-                      style: AppTextStyle.semiBold16.copyWith(
-                        color: AppColors.white,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'Get the current location automatically',
+                        style: AppTextStyle.bold16.copyWith(
+                          color: AppColors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -150,10 +153,13 @@ class LocationPermissionView extends StatelessWidget {
                   onPressed: () {
                     context.read<LocationCubit>().proceedToSearch();
                   },
-                  child: Text(
-                    'Not now',
-                    style: AppTextStyle.semiBold16.copyWith(
-                      color: AppColors.textSecondary,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Select  location manually',
+                      style: AppTextStyle.bold16.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
                 ),
