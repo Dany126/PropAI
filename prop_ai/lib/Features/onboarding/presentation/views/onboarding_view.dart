@@ -9,7 +9,6 @@ import '../widgets/onboarding_content.dart';
 import '../widgets/onboarding_indicator.dart';
 import '../widgets/onboarding_navigation.dart';
 
-
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
 
@@ -18,9 +17,9 @@ class OnboardingView extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const LocationView()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const LocationView()));
   }
 
   @override
@@ -41,7 +40,12 @@ class OnboardingView extends StatelessWidget {
                     itemCount: state.pages.length,
                     onPageChanged: context.read<OnboardingCubit>().changePage,
                     itemBuilder: (context, index) {
-                      return OnboardingContent(page: state.pages[index]);
+                      return OnboardingContent(
+                        page: state.pages[index],
+                        skipAction: () {
+                          _finish(context);
+                        },
+                      );
                     },
                   ),
                 ),
@@ -56,9 +60,7 @@ class OnboardingView extends StatelessWidget {
                       const SizedBox(height: 22),
                       OnboardingNavigation(
                         isLastPage: state.currentPage == state.pages.length - 1,
-                        onSkip: () {
-                          _finish(context);
-                        },
+
                         onNext: () {
                           if (state.currentPage == state.pages.length - 1) {
                             _finish(context);

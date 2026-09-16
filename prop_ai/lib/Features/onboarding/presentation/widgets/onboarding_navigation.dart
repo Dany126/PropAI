@@ -6,13 +6,11 @@ import '../../../../core/theme/app_colors.dart';
 class OnboardingNavigation extends StatelessWidget {
   final bool isLastPage;
   final VoidCallback onNext;
-  final VoidCallback onSkip;
 
   const OnboardingNavigation({
     super.key,
     required this.isLastPage,
     required this.onNext,
-    required this.onSkip,
   });
 
   @override

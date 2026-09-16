@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:prop_ai/core/theme/app_text_styles.dart';
+import 'package:prop_ai/core/utils/app_routes.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/onboarding_page.dart';
 
 class OnboardingContent extends StatelessWidget {
   final OnboardingPage page;
+  final VoidCallback skipAction;
 
-  const OnboardingContent({super.key, required this.page});
+  const OnboardingContent({
+    super.key,
+    required this.page,
+    required this.skipAction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +46,23 @@ class OnboardingContent extends StatelessWidget {
                   child: Positioned(
                     top: 10,
                     right: 10,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        'Skip',
-                        style: AppTextStyle.semiBold14.copyWith(
-                          color: AppColors.textSecondary,
+                    child: GestureDetector(
+                      onTap: () {
+                        skipAction();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          'Skip',
+                          style: AppTextStyle.semiBold14.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ),
                     ),
