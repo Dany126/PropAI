@@ -15,6 +15,9 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> loadSavedLocation() async {
     try {
       final location = await repository.getSavedLocation();
+      final recent = await repository.getRecentLocations();
+      
+      emit(state.copyWith(recentLocations: recent));
 
       if (location == null) {
         emit(state.copyWith(status: LocationStatus.initial));
@@ -76,20 +79,21 @@ class LocationCubit extends Cubit<LocationState> {
     _searchTimer?.cancel();
 
     if (query.trim().isEmpty) {
-      emit(state.copyWith(searchResults: []));
+      emit(state.copyWith(searchResults: [], isSearching: false));
       return;
     }
+
+    emit(state.copyWith(isSearching: true));
 
     _searchTimer = Timer(const Duration(milliseconds: 300), () async {
       try {
         final results = await repository.searchLocations(query);
         if (!isClosed) {
-          emit(state.copyWith(searchResults: results));
+          emit(state.copyWith(searchResults: results, isSearching: false));
         }
       } catch (e) {
-        // Fallback or ignore in case of error for now
         if (!isClosed) {
-          emit(state.copyWith(searchResults: []));
+          emit(state.copyWith(searchResults: [], isSearching: false));
         }
       }
     });
@@ -116,11 +120,14 @@ class LocationCubit extends Cubit<LocationState> {
 
     try {
       await repository.saveLocation(location);
+      await repository.addRecentLocation(location);
+      final recent = await repository.getRecentLocations();
 
       emit(
         state.copyWith(
           status: LocationStatus.success,
           selectedLocation: location,
+          recentLocations: recent,
         ),
       );
     } catch (e) {
@@ -143,6 +150,16 @@ class LocationCubit extends Cubit<LocationState> {
         clearCurrentLocation: true,
       ),
     );
+  }
+
+  Future<void> deleteRecentLocation(LocationEntity location) async {
+    try {
+      await repository.removeRecentLocation(location);
+      final recent = await repository.getRecentLocations();
+      emit(state.copyWith(recentLocations: recent));
+    } catch (e) {
+      // Ignore
+    }
   }
 
   String _cleanErrorMessage(Object error) {

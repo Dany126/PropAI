@@ -61,6 +61,7 @@ class AppConstants {
   static const String onboardingKey = 'onboarding_completed';
   static const String locationSelectedKey = 'location_selected';
   static const String locationNameKey = 'location_name';
+  static const String recentLocationsKey = 'recent_locations';
   static const String authenticatedKey = 'authenticated';
 
   static const String defaultLocation = 'Dubai, UAE';

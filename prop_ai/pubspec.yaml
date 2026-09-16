@@ -47,6 +47,9 @@ dependencies:
   geolocator: ^14.0.2
   geocoding: ^4.0.0
 
+  skeletonizer: ^3.0.0
+  animated_list_plus: ^0.5.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,7 +98,7 @@ flutter:
           weight: 700
 
   #
-  # For details regarding fonts from package dependencies,
+  # For details regarding fonts from package dependncies,
   # see https://flutter.dev/to/font-from-package
 flutter_assets:
   assets_path: assets/images

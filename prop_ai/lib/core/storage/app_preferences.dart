@@ -43,6 +43,14 @@ class AppPreferences {
     await _preferences.setBool(AppConstants.authenticatedKey, value);
   }
 
+  static List<String> get recentLocations {
+    return _preferences.getStringList(AppConstants.recentLocationsKey) ?? [];
+  }
+
+  static Future<void> setRecentLocations(List<String> value) async {
+    await _preferences.setStringList(AppConstants.recentLocationsKey, value);
+  }
+
   static Future<void> clear() async {
     await _preferences.clear();
   }

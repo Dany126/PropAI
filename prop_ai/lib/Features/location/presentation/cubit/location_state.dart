@@ -14,6 +14,7 @@ class LocationState extends Equatable {
   final List<String> popularCities;
   final List<LocationEntity> recentLocations;
   final List<LocationEntity> searchResults;
+  final bool isSearching;
 
   const LocationState({
     this.status = LocationStatus.initial,
@@ -25,6 +26,7 @@ class LocationState extends Equatable {
     this.popularCities = const [],
     this.recentLocations = const [],
     this.searchResults = const [],
+    this.isSearching = false,
   });
 
   LocationState copyWith({
@@ -37,6 +39,7 @@ class LocationState extends Equatable {
     List<String>? popularCities,
     List<LocationEntity>? recentLocations,
     List<LocationEntity>? searchResults,
+    bool? isSearching,
     bool clearSelectedLocation = false,
     bool clearCurrentLocation = false,
     bool clearError = false,
@@ -55,6 +58,7 @@ class LocationState extends Equatable {
       popularCities: popularCities ?? this.popularCities,
       recentLocations: recentLocations ?? this.recentLocations,
       searchResults: searchResults ?? this.searchResults,
+      isSearching: isSearching ?? this.isSearching,
     );
   }
 
@@ -69,5 +73,6 @@ class LocationState extends Equatable {
     popularCities,
     recentLocations,
     searchResults,
+    isSearching,
   ];
 }

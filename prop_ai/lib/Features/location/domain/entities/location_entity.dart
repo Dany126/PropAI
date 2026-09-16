@@ -13,6 +13,24 @@ class LocationEntity extends Equatable {
     this.longitude,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'country': country,
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
+
+  factory LocationEntity.fromMap(Map<String, dynamic> map) {
+    return LocationEntity(
+      name: map['name'] as String,
+      country: map['country'] as String?,
+      latitude: map['latitude'] as double?,
+      longitude: map['longitude'] as double?,
+    );
+  }
+
   String get displayName {
     if (country == null || country!.isEmpty) {
       return name;

@@ -10,4 +10,10 @@ abstract class LocationRepository {
   Future<List<LocationEntity>> searchLocations(String query);
 
   Future<void> clearLocation();
+
+  Future<List<LocationEntity>> getRecentLocations();
+  
+  Future<void> addRecentLocation(LocationEntity location);
+  
+  Future<void> removeRecentLocation(LocationEntity location);
 }

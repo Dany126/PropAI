@@ -89,27 +89,63 @@ class LocationRepositoryImpl implements LocationRepository {
 
   @override
   Future<List<LocationEntity>> searchLocations(String query) async {
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 500));
-
     if (query.trim().isEmpty) return [];
 
-    final normalizedQuery = query.toLowerCase().trim();
+    try {
+      final locations = await locationFromAddress(query);
+      final List<LocationEntity> results = [];
+      final Set<String> seenNames = {}; // To prevent duplicates
 
-    // Mocked data for search suggestions
-    final mockLocations = [
-      const LocationEntity(name: 'Dubai Marina', country: 'UAE', latitude: 25.0805, longitude: 55.1403),
-      const LocationEntity(name: 'Downtown Dubai', country: 'UAE', latitude: 25.1972, longitude: 55.2744),
-      const LocationEntity(name: 'Jumeirah Village Circle (JVC)', country: 'UAE', latitude: 25.0645, longitude: 55.2016),
-      const LocationEntity(name: 'Palm Jumeirah', country: 'UAE', latitude: 25.1124, longitude: 55.1390),
-      const LocationEntity(name: 'Business Bay', country: 'UAE', latitude: 25.1843, longitude: 55.2661),
-      const LocationEntity(name: 'Dubai Hills Estate', country: 'UAE', latitude: 25.1205, longitude: 55.2635),
-      const LocationEntity(name: 'Jumeirah Lake Towers (JLT)', country: 'UAE', latitude: 25.0762, longitude: 55.1472),
-      const LocationEntity(name: 'Arabian Ranches', country: 'UAE', latitude: 25.0487, longitude: 55.2678),
-    ];
+      for (var loc in locations.take(5)) {
+        // Limit to top 5 results for speed
+        final placemarks = await placemarkFromCoordinates(
+          loc.latitude,
+          loc.longitude,
+        );
 
-    return mockLocations
-        .where((loc) => loc.name.toLowerCase().contains(normalizedQuery))
-        .toList();
+        if (placemarks.isNotEmpty) {
+          final placemark = placemarks.first;
+          final city =
+              placemark.locality ??
+              placemark.subAdministrativeArea ??
+              placemark.administrativeArea ??
+              query;
+          final country = placemark.country ?? 'Unknown';
+
+          final uniqueKey = '$city, $country';
+          if (!seenNames.contains(uniqueKey)) {
+            seenNames.add(uniqueKey);
+            results.add(
+              LocationEntity(
+                name: city,
+                country: country,
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+              ),
+            );
+          }
+        }
+      }
+
+      return results;
+    } catch (e) {
+      // If the geocoder fails (e.g. no results found or network error), return empty
+      return [];
+    }
+  }
+
+  @override
+  Future<List<LocationEntity>> getRecentLocations() async {
+    return localDataSource.getRecentLocations();
+  }
+
+  @override
+  Future<void> addRecentLocation(LocationEntity location) async {
+    await localDataSource.addRecentLocation(location);
+  }
+
+  @override
+  Future<void> removeRecentLocation(LocationEntity location) async {
+    await localDataSource.removeRecentLocation(location);
   }
 }
