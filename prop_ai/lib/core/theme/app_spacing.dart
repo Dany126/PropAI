@@ -1,11 +1,20 @@
 import 'package:flutter/widgets.dart';
 
-/// PropAI Spacing System
+/// PropAI Spacing System.
 ///
-/// Base unit: 4px. Use these tokens instead of hardcoded numbers so
-/// spacing stays consistent across the app.
+/// Base unit: 4px.
+///
+/// Mobile design target:
+/// 414 x 896
+///
+/// Standard horizontal screen padding:
+/// 20px
 class AppSpacing {
   AppSpacing._();
+
+  // ---------------------------------------------------------------------------
+  // Base Scale
+  // ---------------------------------------------------------------------------
 
   static const double xxs = 2;
   static const double xs = 4;
@@ -17,34 +26,41 @@ class AppSpacing {
   static const double xxxl = 40;
   static const double huge = 48;
 
-  // ---------------------------------------------------------------------
-  // Common semantic spacing shortcuts
-  // ---------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // Design System Specific
+  // ---------------------------------------------------------------------------
 
-  /// Standard screen horizontal padding
-  static const double screenPaddingH = lg;
+  /// Standard horizontal screen padding.
+  static const double screenPaddingH = 20;
 
-  /// Standard screen top/bottom margin
-  static const double screenPaddingV = xxl;
+  /// Standard vertical screen padding.
+  static const double screenPaddingV = 24;
 
-  /// Internal card padding
-  static const double cardPadding = md;
+  /// Property/card internal padding.
+  static const double cardPadding = 16;
 
-  /// Gap between stacked cards in a list
-  static const double cardGap = lg;
+  /// Gap between cards.
+  static const double cardGap = 16;
 
-  /// Gap between an icon and adjacent text
-  static const double iconTextGap = xs;
+  /// Gap between icon and text.
+  static const double iconTextGap = 8;
 
-  /// Gap between form fields
-  static const double formFieldGap = md;
+  /// Gap between form fields.
+  static const double formFieldGap = 12;
 
-  /// Gap between major page sections (e.g. "Recommended" -> "Nearby")
-  static const double sectionGap = xl;
+  /// Gap between major sections.
+  static const double sectionGap = 24;
 
-  // ---------------------------------------------------------------------
-  // Convenience EdgeInsets
-  // ---------------------------------------------------------------------
+  /// Minimum touch target.
+  static const double minTouchTarget = 44;
+
+  /// Bottom navigation content height.
+  static const double bottomNavigationHeight = 56;
+
+  // ---------------------------------------------------------------------------
+  // EdgeInsets
+  // ---------------------------------------------------------------------------
+
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
     horizontal: screenPaddingH,
     vertical: screenPaddingV,
@@ -57,30 +73,58 @@ class AppSpacing {
   static const EdgeInsets cardInsets = EdgeInsets.all(cardPadding);
 
   static const EdgeInsets buttonInsetsLg = EdgeInsets.symmetric(
-    horizontal: xl,
-    vertical: md,
+    horizontal: 24,
+    vertical: 12,
   );
 
   static const EdgeInsets buttonInsetsMd = EdgeInsets.symmetric(
-    horizontal: lg,
-    vertical: sm,
+    horizontal: 16,
+    vertical: 8,
   );
 
   static const EdgeInsets chipInsets = EdgeInsets.symmetric(
-    horizontal: sm,
-    vertical: xs,
+    horizontal: 8,
+    vertical: 4,
   );
 
-  // ---------------------------------------------------------------------
-  // SizedBox helpers — common vertical/horizontal gaps
-  // ---------------------------------------------------------------------
-  static const SizedBox gapXxs = SizedBox(width: xxs, height: xxs);
-  static const SizedBox gapXs = SizedBox(width: xs, height: xs);
-  static const SizedBox gapSm = SizedBox(width: sm, height: sm);
-  static const SizedBox gapMd = SizedBox(width: md, height: md);
-  static const SizedBox gapLg = SizedBox(width: lg, height: lg);
-  static const SizedBox gapXl = SizedBox(width: xl, height: xl);
-  static const SizedBox gapXxl = SizedBox(width: xxl, height: xxl);
+  // ---------------------------------------------------------------------------
+  // SizedBox Helpers
+  // ---------------------------------------------------------------------------
+
+  static const SizedBox gapXxs = SizedBox(
+    width: xxs,
+    height: xxs,
+  );
+
+  static const SizedBox gapXs = SizedBox(
+    width: xs,
+    height: xs,
+  );
+
+  static const SizedBox gapSm = SizedBox(
+    width: sm,
+    height: sm,
+  );
+
+  static const SizedBox gapMd = SizedBox(
+    width: md,
+    height: md,
+  );
+
+  static const SizedBox gapLg = SizedBox(
+    width: lg,
+    height: lg,
+  );
+
+  static const SizedBox gapXl = SizedBox(
+    width: xl,
+    height: xl,
+  );
+
+  static const SizedBox gapXxl = SizedBox(
+    width: xxl,
+    height: xxl,
+  );
 
   static const SizedBox vGapXs = SizedBox(height: xs);
   static const SizedBox vGapSm = SizedBox(height: sm);

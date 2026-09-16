@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
 
-/// PropAI Radius System
-///
-/// Corner-radius tokens matching the Component & Style Guide:
-/// buttons/inputs 8-12px, cards 12-16px, bottom sheets 16px (top only),
-/// chips/badges fully rounded (pill).
+/// PropAI Radius System.
 class AppRadius {
   AppRadius._();
+
+  // ---------------------------------------------------------------------------
+  // Radius Tokens
+  // ---------------------------------------------------------------------------
 
   static const double xs = 4;
   static const double sm = 8;
   static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 24;
+  static const double lg = 14;
+  static const double xl = 20;
+  static const double xxl = 24;
   static const double pill = 999;
 
-  // ---------------------------------------------------------------------
-  // BorderRadius shortcuts
-  // ---------------------------------------------------------------------
-  static final BorderRadius button = BorderRadius.circular(sm);
-  static final BorderRadius input = BorderRadius.circular(sm);
-  static final BorderRadius card = BorderRadius.circular(md);
-  static final BorderRadius cardLarge = BorderRadius.circular(lg);
+  // ---------------------------------------------------------------------------
+  // Component Radius
+  // ---------------------------------------------------------------------------
+
+  /// Buttons — 12px
+  static final BorderRadius button = BorderRadius.circular(12);
+
+  /// Inputs — 12px
+  static final BorderRadius input = BorderRadius.circular(12);
+
+  /// Cards — 14px
+  static final BorderRadius card = BorderRadius.circular(14);
+
+  /// Large cards — 20px
+  static final BorderRadius cardLarge = BorderRadius.circular(20);
+
+  /// Chips / badges — pill
   static final BorderRadius chip = BorderRadius.circular(pill);
+
+  /// Circular elements
   static final BorderRadius circular = BorderRadius.circular(pill);
 
-  /// Bottom sheets / modals — rounded top corners only
+  /// Bottom sheets — 20px top corners
   static const BorderRadius bottomSheet = BorderRadius.only(
-    topLeft: Radius.circular(lg),
-    topRight: Radius.circular(lg),
+    topLeft: Radius.circular(20),
+    topRight: Radius.circular(20),
   );
 
-  /// Property card image — rounded top corners only (image sits above content)
+  /// Property image inside card.
   static const BorderRadius cardImageTop = BorderRadius.only(
-    topLeft: Radius.circular(md),
-    topRight: Radius.circular(md),
+    topLeft: Radius.circular(14),
+    topRight: Radius.circular(14),
   );
+
+  /// Small image radius.
+  static final BorderRadius image = BorderRadius.circular(12);
 }

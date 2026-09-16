@@ -2,47 +2,65 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-/// PropAI Shadow / Elevation System
+/// PropAI Shadow System.
 ///
-/// Soft, gray-tinted shadows — low opacity, no harsh drop shadows.
-/// Use [card] for property cards, [floating] for FABs/floating buttons,
-/// [modal] for bottom sheets and dialogs, [iconButton] for circular
-/// top-bar icon buttons (notification bell, chat icon, map back button).
+/// The UI uses subtle, crisp shadows instead of heavy Material elevation.
 class AppShadows {
   AppShadows._();
 
+  // ---------------------------------------------------------------------------
+  // Standard Card Shadow
+  // ---------------------------------------------------------------------------
+
+  /// Design token:
+  /// 0px 1px 3px rgba(16, 24, 40, 0.10)
   static List<BoxShadow> get card => [
     BoxShadow(
-      color: AppColors.gray900.withValues(alpha: 0.06),
-      blurRadius: 12,
-      offset: const Offset(0, 4),
+      color: AppColors.gray900.withValues(alpha: 0.10),
+      blurRadius: 3,
+      offset: const Offset(0, 1),
     ),
   ];
+
+  // ---------------------------------------------------------------------------
+  // Icon Button
+  // ---------------------------------------------------------------------------
 
   static List<BoxShadow> get iconButton => [
     BoxShadow(
-      color: AppColors.gray900.withValues(alpha: 0.08),
-      blurRadius: 8,
-      offset: const Offset(0, 2),
+      color: AppColors.gray900.withValues(alpha: 0.10),
+      blurRadius: 3,
+      offset: const Offset(0, 1),
     ),
   ];
+
+  // ---------------------------------------------------------------------------
+  // Floating Elements
+  // ---------------------------------------------------------------------------
 
   static List<BoxShadow> get floating => [
     BoxShadow(
-      color: AppColors.gray900.withValues(alpha: 0.12),
-      blurRadius: 16,
-      offset: const Offset(0, 6),
+      color: AppColors.gray900.withValues(alpha: 0.10),
+      blurRadius: 3,
+      offset: const Offset(0, 1),
     ),
   ];
+
+  // ---------------------------------------------------------------------------
+  // Modal / Bottom Sheet
+  // ---------------------------------------------------------------------------
 
   static List<BoxShadow> get modal => [
     BoxShadow(
-      color: AppColors.gray900.withValues(alpha: 0.16),
-      blurRadius: 24,
-      offset: const Offset(0, -4),
+      color: AppColors.gray900.withValues(alpha: 0.10),
+      blurRadius: 3,
+      offset: const Offset(0, 1),
     ),
   ];
 
-  /// No shadow — used for flat elements like buttons/inputs
+  // ---------------------------------------------------------------------------
+  // No Shadow
+  // ---------------------------------------------------------------------------
+
   static const List<BoxShadow> none = [];
 }

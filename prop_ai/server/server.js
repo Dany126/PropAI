@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "config/.env" });
 const morgan = require("morgan");
 const { connectDB } = require("./config/db");
-const { ApiError } = require("./utils/api_error");
-const { globalErrorHandler } = require("./middleware/error_middleware");
+const ApiError = require("./utils/api_error");
+const globalErrorHandler = require("./middleware/error_middleware");
 const app = express();
 
 if(process.env.NODE_ENV === "development"){
