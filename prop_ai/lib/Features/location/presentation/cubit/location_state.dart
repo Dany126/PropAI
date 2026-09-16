@@ -10,6 +10,10 @@ class LocationState extends Equatable {
   final LocationEntity? currentLocation;
   final String searchQuery;
   final String? errorMessage;
+  final bool showSearchScreen;
+  final List<String> popularCities;
+  final List<LocationEntity> recentLocations;
+  final List<LocationEntity> searchResults;
 
   const LocationState({
     this.status = LocationStatus.initial,
@@ -17,6 +21,10 @@ class LocationState extends Equatable {
     this.currentLocation,
     this.searchQuery = '',
     this.errorMessage,
+    this.showSearchScreen = false,
+    this.popularCities = const [],
+    this.recentLocations = const [],
+    this.searchResults = const [],
   });
 
   LocationState copyWith({
@@ -25,6 +33,10 @@ class LocationState extends Equatable {
     LocationEntity? currentLocation,
     String? searchQuery,
     String? errorMessage,
+    bool? showSearchScreen,
+    List<String>? popularCities,
+    List<LocationEntity>? recentLocations,
+    List<LocationEntity>? searchResults,
     bool clearSelectedLocation = false,
     bool clearCurrentLocation = false,
     bool clearError = false,
@@ -39,6 +51,10 @@ class LocationState extends Equatable {
           : currentLocation ?? this.currentLocation,
       searchQuery: searchQuery ?? this.searchQuery,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
+      showSearchScreen: showSearchScreen ?? this.showSearchScreen,
+      popularCities: popularCities ?? this.popularCities,
+      recentLocations: recentLocations ?? this.recentLocations,
+      searchResults: searchResults ?? this.searchResults,
     );
   }
 
@@ -49,5 +65,9 @@ class LocationState extends Equatable {
     currentLocation,
     searchQuery,
     errorMessage,
+    showSearchScreen,
+    popularCities,
+    recentLocations,
+    searchResults,
   ];
 }

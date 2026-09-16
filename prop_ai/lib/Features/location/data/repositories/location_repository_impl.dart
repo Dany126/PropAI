@@ -86,4 +86,30 @@ class LocationRepositoryImpl implements LocationRepository {
       longitude: position.longitude,
     );
   }
+
+  @override
+  Future<List<LocationEntity>> searchLocations(String query) async {
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (query.trim().isEmpty) return [];
+
+    final normalizedQuery = query.toLowerCase().trim();
+
+    // Mocked data for search suggestions
+    final mockLocations = [
+      const LocationEntity(name: 'Dubai Marina', country: 'UAE', latitude: 25.0805, longitude: 55.1403),
+      const LocationEntity(name: 'Downtown Dubai', country: 'UAE', latitude: 25.1972, longitude: 55.2744),
+      const LocationEntity(name: 'Jumeirah Village Circle (JVC)', country: 'UAE', latitude: 25.0645, longitude: 55.2016),
+      const LocationEntity(name: 'Palm Jumeirah', country: 'UAE', latitude: 25.1124, longitude: 55.1390),
+      const LocationEntity(name: 'Business Bay', country: 'UAE', latitude: 25.1843, longitude: 55.2661),
+      const LocationEntity(name: 'Dubai Hills Estate', country: 'UAE', latitude: 25.1205, longitude: 55.2635),
+      const LocationEntity(name: 'Jumeirah Lake Towers (JLT)', country: 'UAE', latitude: 25.0762, longitude: 55.1472),
+      const LocationEntity(name: 'Arabian Ranches', country: 'UAE', latitude: 25.0487, longitude: 55.2678),
+    ];
+
+    return mockLocations
+        .where((loc) => loc.name.toLowerCase().contains(normalizedQuery))
+        .toList();
+  }
 }

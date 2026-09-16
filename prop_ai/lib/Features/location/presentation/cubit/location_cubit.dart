@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/location_entity.dart';
@@ -6,6 +8,7 @@ import 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
   final LocationRepository repository;
+  Timer? _searchTimer;
 
   LocationCubit({required this.repository}) : super(const LocationState());
 
@@ -69,6 +72,31 @@ class LocationCubit extends Cubit<LocationState> {
 
   void updateSearchQuery(String query) {
     emit(state.copyWith(searchQuery: query, clearError: true));
+
+    _searchTimer?.cancel();
+
+    if (query.trim().isEmpty) {
+      emit(state.copyWith(searchResults: []));
+      return;
+    }
+
+    _searchTimer = Timer(const Duration(milliseconds: 300), () async {
+      try {
+        final results = await repository.searchLocations(query);
+        if (!isClosed) {
+          emit(state.copyWith(searchResults: results));
+        }
+      } catch (e) {
+        // Fallback or ignore in case of error for now
+        if (!isClosed) {
+          emit(state.copyWith(searchResults: []));
+        }
+      }
+    });
+  }
+
+  void proceedToSearch() {
+    emit(state.copyWith(showSearchScreen: true));
   }
 
   Future<void> saveSelectedLocation() async {
@@ -125,5 +153,11 @@ class LocationCubit extends Cubit<LocationState> {
     }
 
     return message;
+  }
+
+  @override
+  Future<void> close() {
+    _searchTimer?.cancel();
+    return super.close();
   }
 }

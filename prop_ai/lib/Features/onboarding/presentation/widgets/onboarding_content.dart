@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prop_ai/core/theme/app_text_styles.dart';
-import 'package:prop_ai/core/utils/app_routes.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/onboarding_page.dart';
