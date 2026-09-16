@@ -7,8 +7,6 @@ class AppConstants {
   // ---------------------------------------------------------------------
   // App Info
   // ---------------------------------------------------------------------
-  static const String appName = 'PropAI';
-  static const String appTagline = 'Find your next home, intelligently.';
 
   // ---------------------------------------------------------------------
   // Animation Durations
@@ -53,4 +51,17 @@ class AppConstants {
   static const int aiSearchDebounceMs = 400;
   static const int minQueryLengthForAiSearch = 3;
   static const double semanticSearchMinSimilarity = 0.65;
+
+  // ---------------------------------------------------------------------
+  //   App Info
+  //---------------------------------------------------------------------
+  static const String appName = 'PropAI';
+  static const String appTagline = 'Find your next home, intelligently.';
+
+  static const String onboardingKey = 'onboarding_completed';
+  static const String locationSelectedKey = 'location_selected';
+  static const String locationNameKey = 'location_name';
+  static const String authenticatedKey = 'authenticated';
+
+  static const String defaultLocation = 'Dubai, UAE';
 }
