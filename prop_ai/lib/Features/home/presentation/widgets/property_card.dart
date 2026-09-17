@@ -170,7 +170,7 @@ class _ImageHeader extends StatelessWidget {
           Image.network(
             property.imageUrl,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
+            errorBuilder: (_, _, _) {
               return Container(
                 color: AppColors.gray100,
                 alignment: Alignment.center,

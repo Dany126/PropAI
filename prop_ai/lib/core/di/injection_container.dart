@@ -15,6 +15,12 @@ import 'package:prop_ai/Features/home/domain/repositories/home_repository.dart';
 import 'package:prop_ai/Features/home/domain/usecase/get_home_data.dart';
 import 'package:prop_ai/Features/home/presentation/cubit/home_cubit.dart';
 
+import 'package:prop_ai/Features/property/data/datasources/property_local_data_source.dart';
+import 'package:prop_ai/Features/property/data/repositories/property_repository_impl.dart';
+import 'package:prop_ai/Features/property/domain/repositories/property_repository.dart';
+import 'package:prop_ai/Features/property/domain/usecase/get_property_details.dart';
+import 'package:prop_ai/Features/property/presentation/cubit/property_cubit.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
@@ -67,5 +73,23 @@ Future<void> setupDependencies() async {
 
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(getHomeData: getIt<GetHomeData>()),
+  );
+
+  getIt.registerLazySingleton<PropertyLocalDataSource>(
+    PropertyLocalDataSourceImpl.new,
+  );
+
+  getIt.registerLazySingleton<PropertyRepository>(
+    () => PropertyRepositoryImpl(
+      localDataSource: getIt<PropertyLocalDataSource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<GetPropertyDetails>(
+    () => GetPropertyDetails(repository: getIt<PropertyRepository>()),
+  );
+
+  getIt.registerFactory<PropertyCubit>(
+    () => PropertyCubit(getPropertyDetails: getIt<GetPropertyDetails>()),
   );
 }

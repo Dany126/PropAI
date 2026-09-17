@@ -16,7 +16,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       'propertyTypes': ['All Properties', 'Apartments', 'Villas', 'Penthouses'],
       'aiMatchedProperties': [
         {
-          'id': '1',
+          'id': 'property_1',
           'title': 'Panoramic Suite',
           'location': 'Dubai Marina',
           'imageUrl':
@@ -36,7 +36,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
           'isFavorite': false,
         },
         {
-          'id': '2',
+          'id': 'property_2',
           'title': 'Palm Jumeirah Residence',
           'location': 'Palm Jumeirah',
           'imageUrl':
@@ -58,7 +58,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       ],
       'nearbyProperties': [
         {
-          'id': '3',
+          'id': 'property_1',
           'title': 'Luxury Marina Apartment',
           'location': 'Dubai Marina',
           'imageUrl':
@@ -78,7 +78,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
           'isFavorite': false,
         },
         {
-          'id': '4',
+          'id': 'property_2',
           'title': 'Modern Waterfront Villa',
           'location': 'Jumeirah',
           'imageUrl':

@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onAskAiTap;
   final VoidCallback? onProfileTap;
-  final VoidCallback? onPropertyTap;
+  final ValueChanged<String>? onPropertyTap;
   final VoidCallback? onFavoriteTap;
   final VoidCallback? onSeeAllAiMatches;
   final VoidCallback? onSeeAllNearby;
@@ -126,7 +126,7 @@ class HomeView extends StatelessWidget {
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: data.aiMatchedProperties.length,
-                                separatorBuilder: (_, __) =>
+                                separatorBuilder: (_, _) =>
                                     const SizedBox(width: 12),
                                 itemBuilder: (context, index) {
                                   final property =
@@ -134,7 +134,8 @@ class HomeView extends StatelessWidget {
 
                                   return PropertyCard(
                                     property: property,
-                                    onTap: onPropertyTap,
+                                    onTap: () =>
+                                        onPropertyTap?.call(property.id),
                                     onFavoriteTap: onFavoriteTap,
                                   );
                                 },
@@ -159,7 +160,7 @@ class HomeView extends StatelessWidget {
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: data.nearbyProperties.length,
-                                separatorBuilder: (_, __) =>
+                                separatorBuilder: (_, _) =>
                                     const SizedBox(width: 12),
                                 itemBuilder: (context, index) {
                                   final property = data.nearbyProperties[index];
@@ -167,7 +168,8 @@ class HomeView extends StatelessWidget {
                                   return PropertyCard(
                                     property: property,
                                     compact: true,
-                                    onTap: onPropertyTap,
+                                    onTap: () =>
+                                        onPropertyTap?.call(property.id),
                                     onFavoriteTap: onFavoriteTap,
                                   );
                                 },

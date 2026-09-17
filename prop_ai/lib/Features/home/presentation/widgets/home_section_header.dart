@@ -29,11 +29,20 @@ class HomeSectionHeader extends StatelessWidget {
               title,
               style: AppTextStyle.bold18.copyWith(color: AppColors.gray900),
             ),
+
             if (subtitle != null) ...[
               const SizedBox(height: 3),
               Row(
                 spacing: 5,
                 children: [
+                  if (ai) ...[
+                    const Icon(
+                      Icons.auto_awesome,
+                      size: 17,
+                      color: AppColors.aiAccent600,
+                    ),
+                    const SizedBox(width: 5),
+                  ],
                   Text(
                     subtitle!,
                     style: AppTextStyle.regular12.copyWith(

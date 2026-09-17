@@ -13,6 +13,8 @@ import 'package:prop_ai/core/di/injection_container.dart';
 import 'package:prop_ai/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:prop_ai/Features/home/presentation/views/home_view.dart';
 import 'package:prop_ai/Features/location/presentation/views/location_search_view.dart';
+import 'package:prop_ai/Features/property/presentation/cubit/property_cubit.dart';
+import 'package:prop_ai/Features/property/presentation/views/property_view.dart';
 
 class AppRoutes {
   static const String splashView = '/splashView';
@@ -26,7 +28,7 @@ class AppRoutes {
   static const String locationSearchView = '/locationSearchView';
 
   static const String homeView = '/homeView';
-
+  static const String propertyView = '/propertyView';
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splashView:
@@ -77,8 +79,8 @@ class AppRoutes {
               onFilterTap: () {
                 // Filter feature will be connected here.
               },
-              onPropertyTap: () {
-                // Property Details feature will be connected here.
+              onPropertyTap: (String propertyId) {
+                Navigator.pushNamed(context, AppRoutes.propertyView, arguments: propertyId);
               },
               onFavoriteTap: () {
                 // Auth Gate will be connected here.
@@ -122,6 +124,31 @@ class AppRoutes {
             child: LocationSearchView(
               onCompleted: () {
                 Navigator.pop(context);
+              },
+            ),
+          ),
+        );
+
+      case propertyView:
+        final propertyId = settings.arguments as String;
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (_) => getIt<PropertyCubit>()..loadProperty(propertyId),
+            child: PropertyView(
+              propertyId: propertyId,
+
+              onFavorite: () {
+                // Auth Gate
+              },
+
+              onShare: () {
+                // Share property
+              },
+
+              onRequestViewing: () {
+                // Auth Gate
+                // Then Request Viewing
               },
             ),
           ),
