@@ -10,6 +10,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     : super(OnboardingState(pages: repository.getPages()));
 
   void changePage(int index) {
+    
+
     if (index < 0 || index >= state.pages.length) {
       return;
     }

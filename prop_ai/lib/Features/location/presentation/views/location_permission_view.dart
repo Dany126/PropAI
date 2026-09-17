@@ -5,9 +5,11 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/responsive_layout.dart';
 import '../cubit/location_cubit.dart';
+import '../cubit/location_state.dart';
 
 class LocationPermissionView extends StatelessWidget {
-  const LocationPermissionView({super.key});
+  final VoidCallback onCompleted;
+  const LocationPermissionView({super.key, required this.onCompleted});
 
   @override
   Widget build(BuildContext context) {
@@ -124,26 +126,56 @@ class LocationPermissionView extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: 56,
-                  child: FilledButton(
-                    onPressed: () {
-                      // Navigate to search screen
-                      context.read<LocationCubit>().proceedToSearch();
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primary600,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'Get the current location automatically',
-                        style: AppTextStyle.bold16.copyWith(
-                          color: AppColors.white,
+                  child: BlocBuilder<LocationCubit, LocationState>(
+                    builder: (context, state) {
+                      final isLoading = state.status == LocationStatus.loading;
+                      return FilledButton(
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                final cubit = context.read<LocationCubit>();
+                                await cubit.useCurrentLocation();
+                                if (!context.mounted) return;
+
+                                final currentState = cubit.state;
+                                if (currentState.status ==
+                                    LocationStatus.success) {
+                                  await cubit.saveSelectedLocation();
+                                  if (!context.mounted) return;
+
+                                  if (cubit.state.status ==
+                                      LocationStatus.success) {
+                                    onCompleted.call();
+                                  }
+                                }
+                              },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary600,
+                          disabledBackgroundColor: AppColors.gray200,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                         ),
-                      ),
-                    ),
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.white,
+                                ),
+                              )
+                            : FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Get the current location automatically',
+                                  style: AppTextStyle.bold16.copyWith(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                      );
+                    },
                   ),
                 ),
 

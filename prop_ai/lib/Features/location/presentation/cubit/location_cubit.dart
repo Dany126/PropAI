@@ -16,7 +16,7 @@ class LocationCubit extends Cubit<LocationState> {
     try {
       final location = await repository.getSavedLocation();
       final recent = await repository.getRecentLocations();
-      
+
       emit(state.copyWith(recentLocations: recent));
 
       if (location == null) {
@@ -100,7 +100,11 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   void proceedToSearch() {
-    emit(state.copyWith(showSearchScreen: true));
+    emit(state.copyWith(showSearchScreen: true, clearError: true));
+  }
+
+  void cancelSearch() {
+    emit(state.copyWith(showSearchScreen: false, clearError: true));
   }
 
   Future<void> saveSelectedLocation() async {

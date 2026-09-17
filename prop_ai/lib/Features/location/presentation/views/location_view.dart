@@ -9,9 +9,9 @@ import 'location_permission_view.dart';
 import 'location_search_view.dart';
 
 class LocationView extends StatelessWidget {
-  final VoidCallback? onCompleted;
+  final VoidCallback onCompleted;
 
-  const LocationView({super.key, this.onCompleted});
+  const LocationView({super.key, required this.onCompleted});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class LocationView extends StatelessWidget {
 }
 
 class LocationViewBody extends StatelessWidget {
-  final VoidCallback? onCompleted;
+  final VoidCallback onCompleted;
 
-  const LocationViewBody({super.key, this.onCompleted});
+  const LocationViewBody({super.key, required this.onCompleted});
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +37,15 @@ class LocationViewBody extends StatelessWidget {
       listener: (context, state) {
         if (state.status == LocationStatus.failure &&
             state.errorMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage!)),
-          );
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.errorMessage!)));
         }
       },
       builder: (context, state) {
         if (state.showSearchScreen) {
           return LocationSearchView(onCompleted: onCompleted);
         }
-        return const LocationPermissionView();
+        return LocationPermissionView(onCompleted: onCompleted);
       },
     );
   }

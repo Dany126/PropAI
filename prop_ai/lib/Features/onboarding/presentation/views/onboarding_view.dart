@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prop_ai/core/utils/app_routes.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../location/presentation/views/location_view.dart';
@@ -10,17 +11,41 @@ import '../widgets/onboarding_indicator.dart';
 import '../widgets/onboarding_navigation.dart';
 import '../../../../core/utils/responsive_layout.dart';
 
-class OnboardingView extends StatelessWidget {
+class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
+
+  @override
+  State<OnboardingView> createState() => _OnboardingViewState();
+}
+
+class _OnboardingViewState extends State<OnboardingView> {
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   Future<void> _finish(BuildContext context) async {
     await context.read<OnboardingCubit>().complete();
 
     if (!context.mounted) return;
 
-    Navigator.of(
-      context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => const LocationView()));
+    final navigator = Navigator.of(context);
+
+    navigator.pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => LocationView(
+          onCompleted: () {
+            navigator.pushNamedAndRemoveUntil(
+              AppRoutes.homeView,
+              (route) => route.settings.name == AppRoutes.homeView,
+            );
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -34,11 +59,12 @@ class OnboardingView extends StatelessWidget {
               if (state.pages.isEmpty) {
                 return const SizedBox.shrink();
               }
-  
+
               return Column(
                 children: [
                   Expanded(
                     child: PageView.builder(
+                      controller: _pageController,
                       itemCount: state.pages.length,
                       onPageChanged: context.read<OnboardingCubit>().changePage,
                       itemBuilder: (context, index) {
@@ -61,16 +87,18 @@ class OnboardingView extends StatelessWidget {
                         ),
                         const SizedBox(height: 22),
                         OnboardingNavigation(
-                          isLastPage: state.currentPage == state.pages.length - 1,
-  
+                          isLastPage:
+                              state.currentPage == state.pages.length - 1,
+
                           onNext: () {
                             if (state.currentPage == state.pages.length - 1) {
                               _finish(context);
                               return;
                             }
-  
-                            context.read<OnboardingCubit>().changePage(
+                            _pageController.animateToPage(
                               state.currentPage + 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
                             );
                           },
                         ),

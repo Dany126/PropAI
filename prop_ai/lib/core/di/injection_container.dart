@@ -9,6 +9,11 @@ import 'package:prop_ai/Features/onboarding/data/repositories/onboarding_reposit
 import 'package:prop_ai/Features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:prop_ai/Features/onboarding/presentation/cubit/onboarding_cubit.dart';
 
+import 'package:prop_ai/Features/home/data/datasources/home_local_data_source.dart';
+import 'package:prop_ai/Features/home/data/repositories/home_repository_impl.dart';
+import 'package:prop_ai/Features/home/domain/repositories/home_repository.dart';
+import 'package:prop_ai/Features/home/domain/usecase/get_home_data.dart';
+import 'package:prop_ai/Features/home/presentation/cubit/home_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -36,12 +41,31 @@ Future<void> setupDependencies() async {
 
   // Repository
   getIt.registerLazySingleton<LocationRepository>(
-    () =>
-        LocationRepositoryImpl(localDataSource: getIt<LocationLocalDataSource>()),
+    () => LocationRepositoryImpl(
+      localDataSource: getIt<LocationLocalDataSource>(),
+    ),
   );
 
   // Cubit
   getIt.registerFactory<LocationCubit>(
     () => LocationCubit(repository: getIt<LocationRepository>()),
+  );
+
+  // =========================
+  // Home
+  // =========================
+
+  getIt.registerLazySingleton<HomeLocalDataSource>(HomeLocalDataSourceImpl.new);
+
+  getIt.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(localDataSource: getIt<HomeLocalDataSource>()),
+  );
+
+  getIt.registerLazySingleton<GetHomeData>(
+    () => GetHomeData(repository: getIt<HomeRepository>()),
+  );
+
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(getHomeData: getIt<GetHomeData>()),
   );
 }

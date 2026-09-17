@@ -20,56 +20,63 @@ class LocationSearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.read<LocationCubit>().cancelSearch();
+      },
+      child: Scaffold(
         backgroundColor: AppColors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.gray900),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: AppColors.gray900),
+            onPressed: () {
+              context.read<LocationCubit>().cancelSearch();
+            },
+          ),
+          title: Text(
+            'Choose your location',
+            style: AppTextStyle.semiBold18.copyWith(color: AppColors.gray900),
+          ),
+          centerTitle: true,
         ),
-        title: Text(
-          'Choose your location',
-          style: AppTextStyle.semiBold18.copyWith(color: AppColors.gray900),
-        ),
-        centerTitle: true,
-      ),
-      body: BlocBuilder<LocationCubit, LocationState>(
-        builder: (context, state) {
-          final cubit = context.read<LocationCubit>();
+        body: BlocBuilder<LocationCubit, LocationState>(
+          builder: (context, state) {
+            final cubit = context.read<LocationCubit>();
 
-          return SafeArea(
-            child: ResponsiveLayout(
-              child: Column(
-                children: [
-                  LocationSearchField(cubit: cubit),
+            return SafeArea(
+              child: ResponsiveLayout(
+                child: Column(
+                  children: [
+                    LocationSearchField(cubit: cubit),
 
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                  Expanded(
-                    child: _SearchContent(
+                    Expanded(
+                      child: _SearchContent(
+                        state: state,
+                        cubit: cubit,
+                        onCompleted: onCompleted,
+                      ),
+                    ),
+
+                    _ContinueButton(
                       state: state,
                       cubit: cubit,
                       onCompleted: onCompleted,
                     ),
-                  ),
 
-                  _ContinueButton(
-                    state: state,
-                    cubit: cubit,
-                    onCompleted: onCompleted,
-                  ),
-
-                  const SizedBox(height: 16),
-                ],
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
