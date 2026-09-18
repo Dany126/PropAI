@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/property_details_entity.dart';
 import '../cubit/property_cubit.dart';
 import '../cubit/property_state.dart';
 import '../widgets/property_bottom_action.dart';
@@ -16,7 +17,7 @@ class PropertyView extends StatefulWidget {
 
   final VoidCallback? onFavorite;
   final VoidCallback? onShare;
-  final VoidCallback? onRequestViewing;
+  final void Function(PropertyDetailsEntity property)? onRequestViewing;
 
   const PropertyView({
     super.key,
@@ -103,7 +104,7 @@ class _PropertyViewState extends State<PropertyView> {
                 bottom: 0,
                 child: PropertyBottomAction(
                   onRequestViewing: () {
-                    widget.onRequestViewing?.call();
+                    widget.onRequestViewing?.call(property);
                   },
                 ),
               ),

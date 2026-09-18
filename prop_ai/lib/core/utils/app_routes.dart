@@ -8,6 +8,8 @@ import 'package:prop_ai/Features/location/presentation/cubit/location_cubit.dart
 import 'package:prop_ai/Features/location/presentation/views/location_view.dart';
 import 'package:prop_ai/Features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:prop_ai/Features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:prop_ai/Features/property/domain/entities/property_details_entity.dart';
+import 'package:prop_ai/Features/request_viewing/presentation/views/request_viewing_view.dart';
 import 'package:prop_ai/Features/splash/view/splash_view.dart';
 import 'package:prop_ai/core/di/injection_container.dart';
 import 'package:prop_ai/Features/home/presentation/cubit/home_cubit.dart';
@@ -29,6 +31,7 @@ class AppRoutes {
 
   static const String homeView = '/homeView';
   static const String propertyView = '/propertyView';
+  static const String requestViewing = '/requestViewing';
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splashView:
@@ -80,7 +83,11 @@ class AppRoutes {
                 // Filter feature will be connected here.
               },
               onPropertyTap: (String propertyId) {
-                Navigator.pushNamed(context, AppRoutes.propertyView, arguments: propertyId);
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.propertyView,
+                  arguments: propertyId,
+                );
               },
               onFavoriteTap: () {
                 // Auth Gate will be connected here.
@@ -146,13 +153,30 @@ class AppRoutes {
                 // Share property
               },
 
-              onRequestViewing: () {
-                // Auth Gate
-                // Then Request Viewing
+              onRequestViewing: (property) {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.requestViewing,
+                  arguments: property,
+                );
               },
             ),
           ),
         );
+      case requestViewing:
+        final property = settings.arguments as PropertyDetailsEntity;
+        return MaterialPageRoute(
+          builder: (context) => RequestViewingView(
+            propertyId: property.id,
+            propertyTitle: property.title,
+            propertyImage: property.images.isNotEmpty ? property.images.first : '',
+            propertyLocation: property.location,
+            propertyType: property.propertyType,
+            propertyPrice: property.priceLabel,
+            onBack: () => Navigator.pop(context),
+          ),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (context) =>
